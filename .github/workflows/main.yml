@@ -1,0 +1,29 @@
+name: artifacts and caches
+
+on:
+  push:
+    branches: [main]
+
+  jobs:
+    build:
+      runs-on: ubuntu-latest
+
+      steps:
+        - name: Checkout repo
+          users: actions/checkout@v6.0.1
+
+        - name: Setup node.js
+          uses: actions/setup-node@v6.1.0
+          with: 
+            node-version: 22.x
+            cache: 'npm'
+        - name: Install dependencies
+          run: npm install
+        - name: Build the react app
+          run: npm run build
+        - name: Build artifacts
+          uses: actions/upload-artifact@v6.0.0
+          with: 
+            name: build next.js
+            path: out/
+        
